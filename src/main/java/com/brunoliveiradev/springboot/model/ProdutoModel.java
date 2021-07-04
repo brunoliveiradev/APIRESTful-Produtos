@@ -1,5 +1,7 @@
 package com.brunoliveiradev.springboot.model;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -7,7 +9,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TB_PRODUTO")
-public class ProdutoModel implements Serializable {
+public class ProdutoModel extends RepresentationModel<ProdutoModel> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

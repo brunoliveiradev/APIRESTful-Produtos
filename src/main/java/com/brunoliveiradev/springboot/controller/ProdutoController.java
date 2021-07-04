@@ -11,6 +11,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value = "/produtos")
 public class ProdutoController {
@@ -20,23 +23,30 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoModel>> getAllProdutos(){
-        //findAll = retorna uma lista com todos
         List<ProdutoModel> produtosList = produtoRepository.findAll();
 
         if (produtosList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
+            for (ProdutoModel produto : produtosList) {
+                long id = produto.getIdProduto();
+                // linkTo e methodOn - metodos do WebMvcLinkBuilder
+                produto.add(linkTo(methodOn(ProdutoController.class).getOneProduto(id)).withSelfRel());
+            }
             return new ResponseEntity<>(produtosList, HttpStatus.OK);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoModel> getOneProduto(@PathVariable(value = "id") Long id){
-
+    public ResponseEntity<ProdutoModel> getOneProduto(@PathVariable(value = "id") Long id) {
         Optional<ProdutoModel> produtoOpt = produtoRepository.findById(id);
-        // If a value is present, returns an Optional, orElse 'not found'
-        return produtoOpt.map(produtoModel -> new ResponseEntity<>(produtoModel, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        if (produtoOpt.isPresent()) {
+            produtoOpt.get().add(linkTo(methodOn(ProdutoController.class).getAllProdutos()).withRel("Lista de Produtos"));
+            return new ResponseEntity<>(produtoOpt.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -61,10 +71,10 @@ public class ProdutoController {
                                                       @RequestBody @Valid ProdutoModel produto) {
 
         Optional<ProdutoModel> produtoOpt = produtoRepository.findById(id);
+
         if (produtoOpt.isPresent()){
             produto.setIdProduto(produtoOpt.get().getIdProduto());
             return new ResponseEntity<>(produtoRepository.save(produto), HttpStatus.OK);
-
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
