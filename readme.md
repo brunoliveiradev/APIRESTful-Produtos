@@ -36,7 +36,7 @@ Esses códigos foram desenvolvidos com as seguintes tecnologias:
 - [Java™ Platform, Standard Edition 11](https://docs.oracle.com/en/java/javase/11/docs/api/index.html)
 
 - [Spring](https://spring.io)
-  - [Spring Boot](https://spring.io/projects/spring-boot), [Spring Data JPA](https://spring.io/projects/spring-data-jpa), [Spring Web](https://spring.io/projects/spring-ws#overview), [Spring Security](https://spring.io/projects/spring-security), [Sprig Boot Validation](https://docs.sprwww.baeldung.com/javax-validation) [Spring HATEOAS][https://spring.io/projects/spring-hateoas].   
+  - [Spring Boot](https://spring.io/projects/spring-boot), [Spring Data JPA](https://spring.io/projects/spring-data-jpa), [Spring Web](https://spring.io/projects/spring-ws#overview), [Spring Security](https://spring.io/projects/spring-security), [Sprig Boot Validation](https://docs.sprwww.baeldung.com/javax-validation), [Spring HATEOAS](https://spring.io/projects/spring-hateoas).   
 
 - [PostgreSQL](https://www.postgresql.org/docs/13/index.html)
 
